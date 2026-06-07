@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>GAAP Intelligence Dashboard</title>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<style>
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    height: 100vh;
+    background: url("background.jpeg") no-repeat center center fixed;
+    background-size: cover;
+    overflow: auto;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 10, 25, 0.60);
+}
+
+.shell {
+    position: relative;
+    width: 92%;
+    max-width: 1200px;
+    margin: 30px auto;
+    z-index: 2;
+}
+
+.header {
+    color: white;
+    text-align: center;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.topbar {
+    display: flex;
+    gap: 10px;
+    background: rgba(255,255,255,0.12);
+    backdrop-filter: blur(25px);
+    padding: 16px;
+    border-radius: 18px;
+    margin-bottom: 15px;
+}
+
+input {
+    flex: 1;
+    padding: 14px;
+    border-radius: 12px;
+    border: none;
+}
+
+button {
+    padding: 12px 18px;
+    border-radius: 12px;
+    border: none;
+    background: #3b82f6;
+    color: white;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.card {
+    background: rgba(255,255,255,0.10);
+    backdrop-filter: blur(22px);
+    border-radius: 22px;
+    padding: 18px;
+}
+
+canvas {
+    width: 100% !important;
+    height: 320px !important;
+}
+
+#map {
+    height: 320px;
+    border-radius: 12px;
+}
+
+#result {
+    color: white;
+    margin: 10px 0;
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="shell">
+
+<div class="header">🚦 GAAP Intelligence Dashboard</div>
+
+<div class="topbar">
+<input id="search" placeholder="Search region (Berlin, München)">
+<button onclick="searchRegion()">Search</button>
+</div>
+
+<div id="result"></div>
+
+<div class="grid">
+
+<div class="card">
+<div style="color:white;margin-bottom:10px;">Germany Map</div>
+<div id="map"></div>
+</div>
+
+<div class="card">
+<div style="color:white;margin-bottom:10px;">Yearly Trend</div>
+<canvas id="lineChart"></canvas>
+</div>
+
+</div>
+
+<div class="card" style="margin-top:15px;">
+<div style="color:white;margin-bottom:10px;">Top Regions</div>
+<canvas id="barChart"></canvas>
+</div>
+
+</div>
+
+<script>
+const BASE = "http://127.0.0.1:8000/analytics";
+
+const map = L.map('map').setView([51.1657, 10.4515], 6);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+let markers = [];
+
+async function loadMap() {
+    const res = await fetch(`${BASE}/regions-geo`);
+    const data = await res.json();
+
+    data.forEach(r => {
+        if (!r.lat || !r.lng) return;
+
+        const marker = L.circleMarker([r.lat, r.lng], {
+            radius: Math.sqrt(r.accidents) * 2,
+            color: "#3b82f6",
+            fillColor: "#60a5fa",
+            fillOpacity: 0.5
+        })
+        .addTo(map)
+        .on("click", () => {
+            searchRegionByName(r.name);
+        });
+
+        markers.push(marker);
+    });
+}
+
+async function searchRegionByName(name) {
+    const res = await fetch(`${BASE}/region-summary?name=${name}`);
+    const data = await res.json();
+
+    document.getElementById("result").innerHTML =
+        `<b>${data.name}</b><br>Accidents: ${data.accidents}`;
+}
+
+async function searchRegion() {
+    const query = document.getElementById("search").value;
+
+    const res = await fetch(`${BASE}/region-summary?query=${encodeURIComponent(query)}`);
+    const data = await res.json();
+
+    document.getElementById("result").innerHTML = `
+        <b>${data.name || "Unknown"}</b><br>
+        Year: ${data.year || "All"}<br>
+        Accidents: ${data.accidents ?? 0}<br>
+        <small>${data.note || ""}</small>
+    `;
+}
+
+async function loadTop() {
+    const res = await fetch(`${BASE}/top-regions`);
+    const data = await res.json();
+
+    new Chart(document.getElementById("barChart"), {
+        type: "bar",
+        data: {
+            labels: data.map(d => d.name),
+            datasets: [{
+                label: "Accidents",
+                data: data.map(d => d.accidents),
+                backgroundColor: "#60a5fa"
+            }]
+        }
+    });
+}
+
+async function loadTrend() {
+    const res = await fetch(`${BASE}/yearly-trend`);
+    const data = await res.json();
+
+    new Chart(document.getElementById("lineChart"), {
+        type: "line",
+        data: {
+            labels: data.map(d => d.year),
+            datasets: [{
+                label: "Accidents",
+                data: data.map(d => d.accidents),
+                borderColor: "#60a5fa",
+                fill: true
+            }]
+        }
+    });
+}
+
+loadMap();
+loadTop();
+loadTrend();
+</script>
+
+</body>
+</html>

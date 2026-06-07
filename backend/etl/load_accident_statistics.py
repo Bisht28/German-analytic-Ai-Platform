@@ -8,21 +8,33 @@ from app.models.indicator_value import IndicatorValue
 from app.models.import_run import ImportRun
 
 
-FILE_PATH = "gaap_data/genesis/population_by_kreis.csv"
+FILE_PATH = "gaap_data/genesis/accident_statistics_by_kreis.csv"
 
 
 INDICATORS = {
-    "Insgesamt": (
-        "POPULATION_TOTAL",
-        "Population Total"
+    "VER001": (
+        "ACCIDENTS_TOTAL",
+        "Accidents Total"
     ),
-    "männlich": (
-        "POPULATION_MALE",
-        "Population Male"
+    "VER002": (
+        "ACCIDENTS_WITH_INJURY",
+        "Accidents With Injury"
     ),
-    "weiblich": (
-        "POPULATION_FEMALE",
-        "Population Female"
+    "VER005": (
+        "ACCIDENTS_SERIOUS_PROPERTY_DAMAGE",
+        "Serious Property Damage Accidents"
+    ),
+    "VER006": (
+        "ACCIDENTS_ALCOHOL_DRUG_DAMAGE",
+        "Alcohol/Drug Related Property Damage Accidents"
+    ),
+    "VER009": (
+        "FATALITIES",
+        "Fatalities"
+    ),
+    "VER019": (
+        "INJURED_PERSONS",
+        "Injured Persons"
     ),
 }
 
@@ -45,7 +57,7 @@ def get_indicator(
     indicator = Indicator(
         code=code,
         name=name,
-        unit="persons",
+        unit="count",
         source_system="GENESIS"
     )
 
@@ -56,7 +68,9 @@ def get_indicator(
     return indicator
 
 
-def load_population(db: Session) -> None:
+def load_accident_statistics(
+    db: Session
+) -> None:
 
     df = pd.read_csv(
         FILE_PATH,
@@ -72,15 +86,18 @@ def load_population(db: Session) -> None:
 
     indicator_map = {}
 
-    for _, (code, name) in INDICATORS.items():
+    for source_code, (
+        indicator_code,
+        indicator_name
+    ) in INDICATORS.items():
 
-        indicator = get_indicator(
-            db,
-            code,
-            name
+        indicator_map[source_code] = (
+            get_indicator(
+                db,
+                indicator_code,
+                indicator_name
+            )
         )
-
-        indicator_map[code] = indicator
 
     inserted = 0
 
@@ -91,17 +108,15 @@ def load_population(db: Session) -> None:
         if value in ["-", ".", "", "nan"]:
             continue
 
-        gender = str(
-            row["2_variable_attribute_label"]
+        source_code = str(
+            row["value_variable_code"]
         ).strip()
 
-        if gender not in INDICATORS:
+        if source_code not in INDICATORS:
             continue
 
-        indicator_code = INDICATORS[gender][0]
-
         indicator = indicator_map[
-            indicator_code
+            source_code
         ]
 
         ags = str(
@@ -159,8 +174,8 @@ def load_population(db: Session) -> None:
 
     db.add(
         ImportRun(
-            source="genesis_population",
-            file_name="population_by_kreis.csv",
+            source="genesis_accident_statistics",
+            file_name="accident_statistics_by_kreis.csv",
             record_count=inserted,
             licence="GENESIS"
         )
@@ -169,5 +184,5 @@ def load_population(db: Session) -> None:
     db.commit()
 
     print(
-        f"Inserted {inserted} population values"
+        f"Inserted {inserted} accident values"
     )

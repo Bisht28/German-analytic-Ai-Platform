@@ -8,21 +8,29 @@ from app.models.indicator_value import IndicatorValue
 from app.models.import_run import ImportRun
 
 
-FILE_PATH = "gaap_data/genesis/population_by_kreis.csv"
+FILE_PATH = "gaap_data/genesis/vehicle_registrations.csv"
 
 
 INDICATORS = {
     "Insgesamt": (
-        "POPULATION_TOTAL",
-        "Population Total"
+        "VEHICLES_TOTAL",
+        "Vehicle Registrations Total"
     ),
-    "männlich": (
-        "POPULATION_MALE",
-        "Population Male"
+    "Pkw": (
+        "VEHICLES_CARS",
+        "Passenger Cars"
     ),
-    "weiblich": (
-        "POPULATION_FEMALE",
-        "Population Female"
+    "Lkw": (
+        "VEHICLES_TRUCKS",
+        "Trucks"
+    ),
+    "Krafträder": (
+        "VEHICLES_MOTORCYCLES",
+        "Motorcycles"
+    ),
+    "Zugmaschinen": (
+        "VEHICLES_TRACTORS",
+        "Tractors"
     ),
 }
 
@@ -45,7 +53,7 @@ def get_indicator(
     indicator = Indicator(
         code=code,
         name=name,
-        unit="persons",
+        unit="vehicles",
         source_system="GENESIS"
     )
 
@@ -56,7 +64,9 @@ def get_indicator(
     return indicator
 
 
-def load_population(db: Session) -> None:
+def load_vehicle_registrations(
+    db: Session
+) -> None:
 
     df = pd.read_csv(
         FILE_PATH,
@@ -91,14 +101,16 @@ def load_population(db: Session) -> None:
         if value in ["-", ".", "", "nan"]:
             continue
 
-        gender = str(
+        vehicle_type = str(
             row["2_variable_attribute_label"]
         ).strip()
 
-        if gender not in INDICATORS:
+        if vehicle_type not in INDICATORS:
             continue
 
-        indicator_code = INDICATORS[gender][0]
+        indicator_code = (
+            INDICATORS[vehicle_type][0]
+        )
 
         indicator = indicator_map[
             indicator_code
@@ -159,8 +171,8 @@ def load_population(db: Session) -> None:
 
     db.add(
         ImportRun(
-            source="genesis_population",
-            file_name="population_by_kreis.csv",
+            source="genesis_vehicle_registrations",
+            file_name="vehicle_registrations.csv",
             record_count=inserted,
             licence="GENESIS"
         )
@@ -169,5 +181,5 @@ def load_population(db: Session) -> None:
     db.commit()
 
     print(
-        f"Inserted {inserted} population values"
+        f"Inserted {inserted} vehicle values"
     )
