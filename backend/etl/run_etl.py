@@ -8,7 +8,8 @@ sys.path.append(
 )
 
 from app.core.database import SessionLocal
-from etl.load_regions import load_regions
+
+from etl.load_population import load_population
 
 
 def main():
@@ -16,8 +17,9 @@ def main():
     db = SessionLocal()
 
     try:
-        print("Loading regions...")
-        load_regions(db)
+
+        print("Loading population...")
+        load_population(db)
 
         print("ETL completed successfully.")
 
