@@ -17,15 +17,81 @@ def load_regions(db: Session) -> None:
         header=None,
     )
 
-    # Keep only municipality rows (Satzart = 60)
-    df = df[df[0].astype(str).str.strip() == "60"].copy()
-    print(f"Municipality rows found: {len(df)}")
-
     inserted = 0
 
-    for _, row in df.iterrows():
+    state_map = {}
+    kreis_map = {}
 
-        ags = (
+    # --------------------------------------------------
+    # STATES (10)
+    # --------------------------------------------------
+
+    states = df[df[0].astype(str).str.strip() == "10"]
+
+    print(f"States found: {len(states)}")
+
+    for _, row in states.iterrows():
+
+        ags = str(row[2]).zfill(2)
+
+        region = Region(
+            ags=ags,
+            name=str(row[7]).strip(),
+            level="state",
+        )
+
+        db.add(region)
+        db.flush()
+
+        state_map[ags] = region.region_id
+        inserted += 1
+
+    # --------------------------------------------------
+    # KREISE (40)
+    # --------------------------------------------------
+
+    kreise = df[df[0].astype(str).str.strip() == "40"]
+
+    print(f"Kreise found: {len(kreise)}")
+
+    for _, row in kreise.iterrows():
+
+        state_ags = str(row[2]).zfill(2)
+
+        kreis_ags = (
+            str(row[2]).zfill(2)
+            + str(int(row[3])).zfill(1)
+            + str(row[4]).zfill(2)
+        )
+
+        region = Region(
+            ags=kreis_ags,
+            name=str(row[7]).strip(),
+            level="kreis",
+            parent_region_id=state_map.get(state_ags),
+        )
+
+        db.add(region)
+        db.flush()
+
+        kreis_map[kreis_ags] = region.region_id
+        inserted += 1
+
+    # --------------------------------------------------
+    # MUNICIPALITIES (60)
+    # --------------------------------------------------
+
+    municipalities = df[
+        df[0].astype(str).str.strip() == "60"
+    ]
+
+    print(
+        f"Municipalities found: {len(municipalities)}"
+    )
+
+    for _, row in municipalities.iterrows():
+
+        municipality_ags = (
             str(int(row[2])).zfill(2)
             + str(int(row[3])).zfill(1)
             + str(int(row[4])).zfill(2)
@@ -33,14 +99,11 @@ def load_regions(db: Session) -> None:
             + str(int(row[6])).zfill(3)
         )
 
-        existing = (
-            db.query(Region)
-            .filter(Region.ags == ags)
-            .first()
+        kreis_ags = (
+            str(int(row[2])).zfill(2)
+            + str(int(row[3])).zfill(1)
+            + str(int(row[4])).zfill(2)
         )
-
-        if existing:
-            continue
 
         longitude = None
         latitude = None
@@ -49,9 +112,11 @@ def load_regions(db: Session) -> None:
             longitude = float(
                 str(row[15]).replace(",", ".")
             )
+
             latitude = float(
                 str(row[16]).replace(",", ".")
             )
+
         except Exception:
             pass
 
@@ -69,9 +134,10 @@ def load_regions(db: Session) -> None:
             pass
 
         region = Region(
-            ags=ags,
+            ags=municipality_ags,
             name=str(row[7]).strip(),
             level="municipality",
+            parent_region_id=kreis_map.get(kreis_ags),
             population=population,
             area_km2=area_km2,
             longitude=longitude,
@@ -84,7 +150,7 @@ def load_regions(db: Session) -> None:
     db.commit()
 
     run = ImportRun(
-        source="municipalities",
+        source="regions",
         file_name="municipalities.xlsx",
         record_count=inserted,
         licence="Datenlizenz Deutschland 2.0",
@@ -93,4 +159,4 @@ def load_regions(db: Session) -> None:
     db.add(run)
     db.commit()
 
-    print(f"Inserted {inserted} municipalities")
+    print(f"Inserted {inserted} total regions")
