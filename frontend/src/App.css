@@ -1,0 +1,423 @@
+/* ==========================================================================
+   YOUR ORIGINAL CORE & LAYOUT STYLES (100% PRESERVED)
+   ========================================================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Inter, Arial, sans-serif;
+}
+
+.app {
+  min-height: 100vh;
+  background:
+    linear-gradient(
+      rgba(0,0,0,0.45),
+      rgba(0,0,0,0.45)
+    ),
+    url('/gaap_backgr.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 40px;
+}
+
+.dashboard {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding-top: 20px;
+}
+
+.header h1 {
+  color: white;
+  font-size: 56px;
+  font-weight: 700;
+}
+
+.header p {
+  color: rgba(255,255,255,0.85);
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.glass-card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+}
+
+.section-title {
+  color: white;
+  font-size: 22px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.question-form {
+  width: 100%;
+}
+
+.question-form textarea {
+  width: 100%;
+  min-height: 150px;
+  border: none;
+  border-radius: 18px;
+  padding: 20px;
+  font-size: 16px;
+  resize: vertical;
+  margin-bottom: 15px;
+  background: rgba(255,255,255,0.95);
+  font-family: inherit;
+}
+
+.ask-btn {
+  width: 100%;
+  border: none;
+  border-radius: 16px;
+  padding: 16px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #3b82f6;
+  color: white;
+  transition: all 0.25s ease;
+}
+
+.ask-btn:hover {
+  background: #2563eb;
+}
+
+.loading-box {
+  padding: 25px;
+  color: white;
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(20px);
+  border-radius: 24px;
+}
+
+/* --- Original 3-Column Layout Proportions --- */
+.main-workspace {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 28px; 
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.left-panel {
+  flex: 1;
+  max-width: 24%;
+}
+
+.center-panel {
+  flex: 1.5;
+  max-width: 41%;
+  display: flex;
+  justify-content: center;
+}
+
+.right-panel {
+  flex: 1.3;
+  max-width: 35%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.search-card {
+  width: 100%;
+  padding: 25px;
+  box-sizing: border-box;
+}
+
+/* --- Original Suggestions Panel Custom Scroll Styles --- */
+.suggestion-panel {
+  padding: 15px;
+}
+
+.suggestion-title {
+  font-size: 14px;
+  color: #9ca3af;
+  margin-bottom: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.suggestion-card {
+  display: flex;
+  gap: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.suggestion-card:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.suggestion-index {
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  background: #2563eb;
+  color: white;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.suggestion-text {
+  font-size: 13px;
+  color: #e5e7eb;
+  line-height: 1.4;
+}
+
+.suggestion-scroll {
+  max-height: 300px;  
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-right: 5px;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+}
+
+.suggestion-scroll::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+
+/* ==========================================================================
+   YOUR ORIGINAL OVERVIEW DROPDOWN & RECHARTS CARD STYLES
+   ========================================================================== */
+.overview-section {
+  margin-top: 20px;
+  padding: 30px;
+}
+
+.overview-grid {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.overview-card {
+  flex: 1;
+  padding: 20px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(10px);
+  color: white;
+}
+
+.overview-card h3 {
+  font-size: 14px;
+  opacity: 0.7;
+  margin-bottom: 6px;
+}
+
+.overview-card p {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.overview-glass-btn {
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: white;
+  font-weight: 600;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.overview-glass-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.chart-card {
+  margin-top: 25px;
+  padding: 20px;
+  border-radius: 16px;
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+  overflow: hidden;
+}
+
+.chart-card h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 20px;
+}
+
+
+/* ==========================================================================
+   NEW UPGRADED RESULTS STYLES (SAFE INTERPOLATION WITH PREVIOUS STYLES)
+   ========================================================================== */
+.result-card {
+  padding: 30px;
+  color: white;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 24px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.functional-result-card {
+  color: #f3f4f6;
+  line-height: 1.6;
+}
+
+.result-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 20px;
+}
+
+.result-summary-text {
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: #e5e7eb;
+  margin-bottom: 20px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.result-value {
+  font-size: 18px;
+  line-height: 1.5;
+  color: #e5e7eb;
+  word-break: break-word;
+}
+
+/* Refined Spacing Grid for the Result Table */
+.result-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 8px;
+  margin-top: 15px;
+}
+
+.result-table th {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #9ca3af;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.result-table tr {
+  background: rgba(255, 255, 255, 0.03);
+  transition: background 0.2s ease;
+}
+
+.result-table tr:hover {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.result-table td {
+  padding: 12px 14px;
+  font-size: 0.9rem;
+  color: #ffffff;
+  vertical-align: middle;
+}
+
+.rank-badge {
+  font-weight: 700;
+  color: #3b82f6;
+  width: 50px;
+}
+
+.sub-detail-text {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin-left: 6px;
+}
+
+.th-metric {
+  text-align: right !important;
+}
+
+.metric-value {
+  font-weight: 600;
+}
+
+.empty-state, .error-state {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.error-state p {
+  color: #ef4444;
+}
+
+
+/* ==========================================================================
+   MEDIA QUERIES
+   ========================================================================== */
+@media (max-width: 1100px) {
+  .main-workspace {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .left-panel, .center-panel, .right-panel {
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 36px;
+  }
+  .overview-grid {
+    flex-direction: column;
+  }
+  .result-value {
+    font-size: 48px;
+  }
+}

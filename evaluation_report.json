@@ -1,0 +1,681 @@
+[
+  {
+    "question": "From which year does the dataset start?",
+    "structure": {
+      "earliest_year": 2000
+    },
+    "result": null,
+    "sentence": "The dataset starts from none."
+  },
+  {
+    "question": "What years are available for Bavaria?",
+    "structure": {
+      "state_availability": [
+        2010,
+        2011,
+        2012,
+        2013,
+        2014,
+        2015,
+        2016,
+        2017,
+        2018,
+        2019,
+        2020
+      ]
+    },
+    "result": null,
+    "sentence": "The output \"None\" indicates that there are no years available for Bavaria."
+  },
+  {
+    "question": "Show dataset coverage for Hamburg?",
+    "structure": {
+      "count_accidents": 1234,
+      "top_fatal_districts": [
+        "Kreuzberg",
+        "Altona"
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [
+        "Wandsbek",
+        "Eimsb\u00fcttel"
+      ],
+      "earliest_year": 2015
+    },
+    "result": null,
+    "sentence": "The output does not show the dataset coverage for Hamburg."
+  },
+  {
+    "question": "How many pedestrian accidents occurred in Berlin in 2023?",
+    "structure": {
+      "count_accidents": 10,
+      "top_fatal_districts": [
+        "Kreuzberg",
+        "Mitte"
+      ],
+      "state_availability": {
+        "Berlin": true
+      },
+      "zero_accident_municipalities": [],
+      "earliest_year": 2010
+    },
+    "result": null,
+    "sentence": "According to official records, there were no reported pedestrian accidents in Berlin for the year 2023."
+  },
+  {
+    "question": "How many bicycle accidents occurred in Dresden in 2024?",
+    "structure": {
+      "count_accidents": 12,
+      "top_fatal_districts": [
+        "none"
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [],
+      "earliest_year": 2000
+    },
+    "result": null,
+    "sentence": "There were no bicycle accidents recorded in Dresden in 2024."
+  },
+  {
+    "question": "How many personal injury accidents occurred in Saxony in 2023?",
+    "structure": {
+      "count_accidents": 5,
+      "top_fatal_districts": [
+        "Dresden",
+        "Chemnitz"
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [],
+      "earliest_year": 2010
+    },
+    "result": null,
+    "sentence": "There were no personal injury accidents reported in Saxony in 2023."
+  },
+  {
+    "question": "What are the top 5 districts with fatal accidents in 2024?",
+    "structure": {
+      "count_accidents": 123,
+      "top_fatal_districts": [
+        {
+          "district": "District 1",
+          "fatalities": 25
+        },
+        {
+          "district": "District 2",
+          "fatalities": 18
+        },
+        {
+          "district": "District 3",
+          "fatalities": 15
+        },
+        {
+          "district": "District 4",
+          "fatalities": 12
+        },
+        {
+          "district": "District 5",
+          "fatalities": 10
+        }
+      ],
+      "state_availability": {
+        "State A": true,
+        "State B": false
+      },
+      "zero_accident_municipalities": [
+        "Municipality A",
+        "Municipality C"
+      ],
+      "earliest_year": 2010
+    },
+    "result": null,
+    "sentence": "According to the latest data, the top 5 districts with fatal accidents in 2024 were District A, District B, District C, District D, and District E."
+  },
+  {
+    "question": "Rank top 15 districts by deadly accidents in 2023.",
+    "structure": {
+      "count_accidents": 4567,
+      "top_fatal_districts": [
+        {
+          "district": "North District",
+          "fatalities": 234
+        },
+        {
+          "district": "South District",
+          "fatalities": 192
+        },
+        {
+          "district": "East District",
+          "fatalities": 142
+        },
+        {
+          "district": "West District",
+          "fatalities": 124
+        },
+        {
+          "district": "Central District",
+          "fatalities": 105
+        },
+        {
+          "district": "Suburban District",
+          "fatalities": 90
+        },
+        {
+          "district": "Residential District",
+          "fatalities": 80
+        },
+        {
+          "district": "Industrial District",
+          "fatalities": 70
+        },
+        {
+          "district": "Commercial District",
+          "fatalities": 60
+        },
+        {
+          "district": "Institutional District",
+          "fatalities": 50
+        },
+        {
+          "district": "Mixed Use District",
+          "fatalities": 40
+        },
+        {
+          "district": "Transportation District",
+          "fatalities": 30
+        },
+        {
+          "district": "Recreational District",
+          "fatalities": 20
+        },
+        {
+          "district": "Agricultural District",
+          "fatalities": 10
+        }
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [],
+      "earliest_year": 2010
+    },
+    "result": null,
+    "sentence": "The top 15 districts by deadly accidents in 2023 were ranked as follows:"
+  },
+  {
+    "question": "How many municipalities had zero accidents in Bavaria in 2022?",
+    "structure": {
+      "count_accidents": 0,
+      "top_fatal_districts": [],
+      "state_availability": true,
+      "zero_accident_municipalities": [
+        "list of municipalities with zero accidents"
+      ],
+      "earliest_year": 2022
+    },
+    "result": null,
+    "sentence": "According to the data, none of the municipalities in Bavaria experienced zero accidents in 2022."
+  },
+  {
+    "question": "Show accidents in Frankfurt?",
+    "structure": {
+      "count_accidents": 0,
+      "top_fatal_districts": [],
+      "state_availability": true,
+      "zero_accident_municipalities": [
+        "Frankfurt"
+      ],
+      "earliest_year": 2015
+    },
+    "result": null,
+    "sentence": "There are no accidents being displayed for Frankfurt."
+  },
+  {
+    "question": "Count cycling accidents in Leipzig during 2023.",
+    "structure": {
+      "count_accidents": 5,
+      "top_fatal_districts": [
+        "inner city"
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [],
+      "earliest_year": 2010
+    },
+    "result": null,
+    "sentence": "There were no reported cycling accidents in Leipzig during the year 2023."
+  },
+  {
+    "question": "How many bicycle accidents occurred in Chemnitz in 2024?",
+    "structure": {
+      "count_accidents": 5,
+      "top_fatal_districts": [],
+      "state_availability": true,
+      "zero_accident_municipalities": [
+        "Chemnitz"
+      ],
+      "earliest_year": 2018
+    },
+    "result": null,
+    "sentence": "According to records, there were no bicycle accidents reported in Chemnitz in 2024."
+  },
+  {
+    "question": "Show pedestrian incidents in Cologne for 2024.",
+    "structure": {
+      "count_accidents": 12,
+      "top_fatal_districts": [
+        "Innere Weststadt",
+        "Ehrenfeld"
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [],
+      "earliest_year": 2015
+    },
+    "result": null,
+    "sentence": "Unfortunately, there is no data available to show the number of pedestrian incidents in Cologne for 2024."
+  },
+  {
+    "question": "How many pedestrian accidents occurred in Hamburg in 2023?",
+    "structure": {
+      "count_accidents": 5
+    },
+    "result": null,
+    "sentence": "There were no reported pedestrian accidents in Hamburg in the year 2023."
+  },
+  {
+    "question": "Count pedestrian crashes in Munich during 2022.",
+    "structure": {
+      "count_accidents": 5,
+      "top_fatal_districts": [
+        "Lehel",
+        "Haidhausen"
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [],
+      "earliest_year": 2018
+    },
+    "result": null,
+    "sentence": "There were no reported pedestrian crashes in Munich during the year 2022."
+  },
+  {
+    "question": "Show bike crashes in Frankfurt in 2022.",
+    "structure": {
+      "count_accidents": 12,
+      "top_fatal_districts": [
+        "Innenstadt",
+        "Bergen-Enkheim"
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [],
+      "earliest_year": 2000
+    },
+    "result": null,
+    "sentence": "There were no reported bike crashes in Frankfurt in 2022."
+  },
+  {
+    "question": "How many accidents occurred in NRW in 2024?",
+    "structure": {
+      "count_accidents": 123
+    },
+    "result": null,
+    "sentence": "According to available data, there were no reported accidents in the German state of North Rhine-Westphalia (NRW) in 2024."
+  },
+  {
+    "question": "What is dataset coverage for Saxony?",
+    "structure": {
+      "count_accidents": 1234,
+      "top_fatal_districts": [
+        "District1",
+        "District2"
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [
+        "Muni1",
+        "Muni2"
+      ],
+      "earliest_year": 2010
+    },
+    "result": null,
+    "sentence": "The output for the question \"What is dataset coverage for Saxony?\" is None."
+  },
+  {
+    "question": "How many injury accidents in Baden-W\u00fcrttemberg in 2023?",
+    "structure": {
+      "count_accidents": 5
+    },
+    "result": null,
+    "sentence": "There were no reported injury accidents in Baden-W\u00fcrttemberg in 2023."
+  },
+  {
+    "question": "Count zero accident municipalities in Hamburg 2024?",
+    "structure": {
+      "count_accidents": 0,
+      "top_fatal_districts": [],
+      "state_availability": true,
+      "zero_accident_municipalities": [
+        {
+          "name": "Munich",
+          "is_pedestrian": false,
+          "is_bicycle": false
+        }
+      ],
+      "earliest_year": 2019
+    },
+    "result": null,
+    "sentence": "There were no municipalities with zero accidents in Hamburg in the year 2024."
+  },
+  {
+    "question": "Which districts had highest fatalities in 2024?",
+    "structure": {
+      "count_accidents": 12345,
+      "top_fatal_districts": [
+        {
+          "district_name": "District A",
+          "fatalities": 500
+        },
+        {
+          "district_name": "District B",
+          "fatalities": 300
+        },
+        {
+          "district_name": "District C",
+          "fatalities": 200
+        }
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [],
+      "earliest_year": 2015
+    },
+    "result": null,
+    "sentence": "The report does not provide information on which districts had the highest fatalities in 2024."
+  },
+  {
+    "question": "Top 10 fatal districts 2024",
+    "structure": {
+      "count_accidents": 15,
+      "top_fatal_districts": [
+        {
+          "district": "District X",
+          "fatalities": 5
+        },
+        {
+          "district": "District Y",
+          "fatalities": 3
+        },
+        {
+          "district": "District Z",
+          "fatalities": 2
+        },
+        {
+          "district": "District A",
+          "fatalities": 1
+        },
+        {
+          "district": "District B",
+          "fatalities": 1
+        },
+        {
+          "district": "District C",
+          "fatalities": 1
+        },
+        {
+          "district": "District D",
+          "fatalities": 1
+        },
+        {
+          "district": "District E",
+          "fatalities": 1
+        },
+        {
+          "district": "District F",
+          "fatalities": 1
+        },
+        {
+          "district": "District G",
+          "fatalities": 1
+        }
+      ],
+      "state_availability": [
+        "State A",
+        "State B",
+        "State C"
+      ],
+      "zero_accident_municipalities": [
+        "Municipality 1",
+        "Municipality 2",
+        "Municipality 3"
+      ],
+      "earliest_year": 2010
+    },
+    "result": null,
+    "sentence": "The top 10 fatal districts in 2024 have not been disclosed."
+  },
+  {
+    "question": "Top 20 fatal districts 2022",
+    "structure": {
+      "operation": "unknown",
+      "filters": {},
+      "options": {}
+    },
+    "result": null,
+    "sentence": "The top 20 fatal districts in 2022 are unknown since the result is none."
+  },
+  {
+    "question": "Earliest accident year?",
+    "structure": {
+      "earliest_year": 2015
+    },
+    "result": null,
+    "sentence": "The earliest accident year is unknown."
+  },
+  {
+    "question": "Which years exist for Bavaria?",
+    "structure": {
+      "earliest_year": [
+        2005
+      ]
+    },
+    "result": null,
+    "sentence": "There are no years that exclusively exist only for Bavaria, as it is a region within Germany and does not have its own separate chronology."
+  },
+  {
+    "question": "Show bicycle accidents in Dresden 2024",
+    "structure": {
+      "count_accidents": 10,
+      "top_fatal_districts": [
+        "Innere Altstadt"
+      ],
+      "state_availability": {
+        "Dresden": true
+      },
+      "zero_accident_municipalities": [],
+      "earliest_year": 2024
+    },
+    "result": null,
+    "sentence": "There were no reported bicycle accidents in Dresden for the year 2024."
+  },
+  {
+    "question": "Pedestrian accidents in Berlin 2023",
+    "structure": {
+      "count_accidents": 123,
+      "top_fatal_districts": [
+        "Mitte",
+        "Charlottenburg-Wilmersdorf"
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [],
+      "earliest_year": 2010
+    },
+    "result": null,
+    "sentence": "There were no pedestrian accidents reported in Berlin during 2023."
+  },
+  {
+    "question": "Fatal accident ranking 2023",
+    "structure": {
+      "count_accidents": 1234,
+      "top_fatal_districts": [
+        "District A",
+        "District B",
+        "District C"
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [
+        "Municipality X",
+        "Municipality Y"
+      ],
+      "earliest_year": 2015
+    },
+    "result": null,
+    "sentence": "There was no fatal accident ranking in 2023."
+  },
+  {
+    "question": "Show Hamburg accident coverage",
+    "structure": {
+      "count_accidents": 1234,
+      "top_fatal_districts": [
+        "Kreuzberg",
+        "St. Pauli"
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [
+        "Eimsb\u00fcttel",
+        "Altona"
+      ],
+      "earliest_year": 2015
+    },
+    "result": null,
+    "sentence": "The insurance company did not provide coverage for the Hamburg accident."
+  },
+  {
+    "question": "Count Leipzig bicycle crashes 2023",
+    "structure": {
+      "count_accidents": 123,
+      "top_fatal_districts": [
+        "district1",
+        "district2"
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [
+        "municipality1",
+        "municipality2"
+      ],
+      "earliest_year": 2010
+    },
+    "result": null,
+    "sentence": "There were no recorded bicycle crashes in Count Leipzig in 2023."
+  },
+  {
+    "question": "How many pedestrian accidents occurred in Berlin in 2023?",
+    "structure": {
+      "count_accidents": 10,
+      "top_fatal_districts": [
+        "Mitte"
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [],
+      "earliest_year": 2000
+    },
+    "result": null,
+    "sentence": "As of 2023, there have been no recorded pedestrian accidents in Berlin."
+  },
+  {
+    "question": "How many bicycle accidents occurred in Dresden in 2024?",
+    "structure": {
+      "count_accidents": 1,
+      "top_fatal_districts": [],
+      "state_availability": true,
+      "zero_accident_municipalities": [
+        "Dresden"
+      ],
+      "earliest_year": 2024
+    },
+    "result": null,
+    "sentence": "There were no bicycle accidents reported in Dresden in 2024."
+  },
+  {
+    "question": "What are the top 5 districts with highest fatal accidents in 2024?",
+    "structure": {
+      "count_accidents": 123,
+      "top_fatal_districts": [
+        "District A",
+        "District B",
+        "District C",
+        "District D",
+        "District E"
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [],
+      "earliest_year": 2024
+    },
+    "result": null,
+    "sentence": "According to the data, the top 5 districts with highest fatal accidents in 2024 were District A, District B, District C, District D, and District E."
+  },
+  {
+    "question": "From which year does data start?",
+    "structure": {
+      "earliest_year": "2013"
+    },
+    "result": null,
+    "sentence": "There is no data available to provide an answer from any year."
+  },
+  {
+    "question": "What years exist for Bavaria?",
+    "structure": {
+      "earliest_year": 2012,
+      "state_availability": {
+        "Bavaria": [
+          2012,
+          2013,
+          2014,
+          2015,
+          2016,
+          2017,
+          2018,
+          2019
+        ]
+      }
+    },
+    "result": null,
+    "sentence": "There are no years that exist for Bavaria as it is a state in Germany and not a concept with a timeline."
+  },
+  {
+    "question": "Count cycling accidents in Leipzig during 2023.",
+    "structure": {
+      "count_accidents": 15,
+      "top_fatal_districts": [
+        "Connewitz",
+        "Gohlis"
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [],
+      "earliest_year": 2018
+    },
+    "result": null,
+    "sentence": "Here is the converted sentence:\n\nThere are no records of cycling accidents in Leipzig for the year 2023."
+  },
+  {
+    "question": "Show bike crashes in Frankfurt in 2022.",
+    "structure": {
+      "count_accidents": 10,
+      "top_fatal_districts": [
+        "District 1",
+        "District 2"
+      ],
+      "state_availability": true,
+      "zero_accident_municipalities": [],
+      "earliest_year": 2022
+    },
+    "result": null,
+    "sentence": "There were no recorded bike crashes in Frankfurt in 2022."
+  },
+  {
+    "question": "Count municipalities without accidents in Hamburg for 2024.",
+    "structure": {
+      "count_accidents": 0,
+      "top_fatal_districts": [],
+      "state_availability": true,
+      "zero_accident_municipalities": [
+        "all"
+      ],
+      "earliest_year": 2024
+    },
+    "result": null,
+    "sentence": "There are no municipalities in Hamburg that have had zero accidents by the end of 2024."
+  }
+]
