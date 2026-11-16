@@ -1,18 +1,25 @@
 import json
+import os
+import re
+
 import requests
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL_NAME = "llama3:latest"
+from config import OLLAMA_URL, OLLAMA_MODEL, OLLAMA_API_KEY
 
 
 # ---------------------------
 # OLLAMA CALL WRAPPER
 # ---------------------------
 def ask_ollama(prompt: str) -> str:
+    # A local Ollama server needs no key; Ollama Cloud (https://ollama.com)
+    # serves the same API and authenticates with a bearer key.
+    headers = {"Authorization": f"Bearer {OLLAMA_API_KEY}"} if OLLAMA_API_KEY else {}
+
     response = requests.post(
-        OLLAMA_URL,
+        f"{OLLAMA_URL.rstrip('/')}/api/generate",
+        headers=headers,
         json={
-            "model": MODEL_NAME,
+            "model": OLLAMA_MODEL,
             "prompt": prompt,
             "stream": False,
 
@@ -33,9 +40,115 @@ def ask_ollama(prompt: str) -> str:
 
 
 # ---------------------------
+# RULE-BASED PARSER (NO LLM)
+# ---------------------------
+# Used where no Ollama server is reachable (the hosted deployment).
+# QUERY_PARSER=rules|ollama overrides the default.
+QUERY_PARSER = os.getenv("QUERY_PARSER", "rules" if os.getenv("VERCEL") else "ollama")
+
+# Spellings found in questions -> the state name intent_service expects.
+# Longer spellings are tried first so "Lower Saxony" is not read as "Saxony".
+STATE_ALIASES = {
+    "schleswig-holstein": "Schleswig-Holstein",
+    "hamburg": "Hamburg",
+    "lower saxony": "Lower Saxony",
+    "niedersachsen": "Lower Saxony",
+    "bremen": "Bremen",
+    "north rhine-westphalia": "North Rhine-Westphalia",
+    "north rhine westphalia": "North Rhine-Westphalia",
+    "nordrhein-westfalen": "North Rhine-Westphalia",
+    "nrw": "North Rhine-Westphalia",
+    "hesse": "Hesse",
+    "hessen": "Hesse",
+    "rhineland-palatinate": "Rhineland-Palatinate",
+    "rheinland-pfalz": "Rhineland-Palatinate",
+    "baden-württemberg": "Baden-Württemberg",
+    "baden-wurttemberg": "Baden-Württemberg",
+    "bavaria": "Bavaria",
+    "bayern": "Bavaria",
+    "saarland": "Saarland",
+    "berlin": "Berlin",
+    "brandenburg": "Brandenburg",
+    "mecklenburg-western pomerania": "Mecklenburg-Western Pomerania",
+    "mecklenburg-vorpommern": "Mecklenburg-Western Pomerania",
+    "saxony-anhalt": "Saxony-Anhalt",
+    "sachsen-anhalt": "Saxony-Anhalt",
+    "saxony": "Saxony",
+    "sachsen": "Saxony",
+    "thuringia": "Thuringia",
+    "thüringen": "Thuringia",
+}
+
+
+def _find_state(text: str):
+    for alias in sorted(STATE_ALIASES, key=len, reverse=True):
+        if re.search(rf"(?<![\w-]){re.escape(alias)}(?![\w-])", text):
+            return STATE_ALIASES[alias]
+    return None
+
+
+def _find_place(question: str):
+    """The capitalised place name after "in", e.g. "in Dresden in 2024"."""
+    for match in re.finditer(
+        r"\bin\s+((?:[A-ZÄÖÜ][\wäöüß.\-]*)(?:\s+[A-ZÄÖÜ][\wäöüß.\-]*)*)",
+        question
+    ):
+        place = match.group(1).strip(" .?!,")
+        if place and place.lower() != "germany":
+            return place
+    return None
+
+
+def extract_with_rules(question: str):
+
+    text = question.lower()
+    structure = fallback()
+    filters = structure["filters"]
+
+    state = _find_state(text)
+    filters["state"] = state
+
+    year = re.search(r"\b(20\d{2})\b", text)
+    if year:
+        filters["year"] = int(year.group(1))
+
+    limit = re.search(r"\btop\s+(\d+)\b", text)
+    if limit:
+        structure["options"]["limit"] = int(limit.group(1))
+
+    if "pedestrian" in text:
+        filters["is_pedestrian"] = True
+    if re.search(r"bicycle|cycling|cyclist|\bbike", text):
+        filters["is_bicycle"] = True
+
+    if re.search(r"\b(zero|no)\b", text) and "municipalit" in text:
+        operation = "zero_accident_municipalities"
+    elif "personal injury" in text:
+        operation = "personal_injury_accidents"
+    elif "fatal" in text and re.search(r"\b(top|highest|most)\b", text):
+        operation = "top_fatal_districts"
+    elif state and re.search(r"availab|from which year|since when|since which year", text):
+        operation = "state_availability"
+    elif re.search(r"earliest|first year|oldest", text):
+        operation = "earliest_year"
+    elif "accident" in text and re.search(r"how many|number of|count|total", text):
+        operation = "count_accidents"
+        if not state:
+            filters["district"] = _find_place(question)
+    else:
+        return structure
+
+    structure["operation"] = operation
+    return structure
+
+
+# ---------------------------
 # CORE EXTRACTION FUNCTION
 # ---------------------------
 def extract_query_structure(question: str):
+
+    if QUERY_PARSER == "rules":
+        return extract_with_rules(question)
 
     prompt = f"""
 You are a STRICT JSON generator.

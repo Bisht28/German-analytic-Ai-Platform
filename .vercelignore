@@ -1,0 +1,11 @@
+venv
+data
+etl
+scripts
+sql
+*.zip
+**/node_modules
+**/__pycache__
+**/.env
+frontend/dist
+.DS_Store

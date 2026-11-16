@@ -1,8 +1,8 @@
 # RoadInsight AI
 
-**Course:** Datenbanken und Web-Techniken (DBW), TU Chemnitz  
 **Topic:** Open Data Integration with Accidents in Germany  
-**Stack:** PostgreSQL · FastAPI · React · Ollama (llama3)
+**Stack:** PostgreSQL · FastAPI · React · Ollama (llama3)  
+**Live demo:** https://german-analytic-ai-platform.vercel.app
 
 ---
 
@@ -15,6 +15,10 @@ User
              ├─▶ Ollama / llama3 (natural language intent extraction)
              └─▶ PostgreSQL (roadinsight schema)
 ```
+
+**Hosted version:** the live demo runs the same frontend and backend on Vercel,
+with the database on Neon Postgres. Vercel cannot run Ollama, so the hosted
+backend parses questions with a rule-based parser instead of llama3.
 
 ---
 

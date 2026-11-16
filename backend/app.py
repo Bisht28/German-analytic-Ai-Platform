@@ -1,3 +1,5 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -17,7 +19,9 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=[
         "http://localhost:5173",
-        "http://127.0.0.1:5173"
+        "http://127.0.0.1:5173",
+        # Extra origins (e.g. the deployed frontend), comma-separated
+        *[o.strip() for o in os.getenv("CORS_ORIGINS", "").split(",") if o.strip()]
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -39,6 +43,7 @@ def root():
 
 
 @app.get("/health")
+@app.get("/api/health")
 def health():
     try:
         with get_connection() as conn:
